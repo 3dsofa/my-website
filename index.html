@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чистый хедер | 3Dsofa</title>
+    <style>
+        /* --- СБРОС И ОБЩИЕ СТИЛИ --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+            padding-top: env(safe-area-inset-top);
+        }
+
+        /* --- КОНФИГУРАЦИЯ ВЫСОТЫ СЕКЦИЙ --- */
+        :root {
+            /* Основные переменные для регулировки высоты */
+            --video-section-height: 100vh;       /* Высота видео-секции */
+            --text-section-height: 80vh;         /* Высота текстовых секций */
+            --min-text-section-height: 600px;    /* Минимальная высота текстовых секций */
+        }
+
+        /* --- ХЕДЕР --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #000;
+            height: 60px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding-left: 40px;
+            transition: top 0.3s ease-out;
+        }
+
+        header.hidden {
+            top: -60px;
+        }
+
+        .logo {
+            font-size: 1.9rem;
+            font-weight: 300;
+            white-space: nowrap;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .logo span:first-child,
+        .logo span:last-child {
+            color: #fff;
+            text-transform: lowercase;
+        }
+
+        .logo span:first-child::first-letter,
+        .logo span:last-child::first-letter {
+            text-transform: uppercase;
+        }
+
+        .logo span:nth-child(2) {
+            color: #2ecc71;
+            font-weight: 400;
+
+        }
+
+        /* --- ДЕСКТОПНАЯ НАВИГАЦИЯ --- */
+        .desktop-nav {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .desktop-nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 300;
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .desktop-nav a:hover {
+            color: #2ecc71;
+        }
+
+        .desktop-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #2ecc71;
+            transition: width 0.3s ease;
+        }
+
+        .desktop-nav a:hover::after {
+            width: 100%;
+        }
+
+        /* --- БУРГЕР-МЕНЮ --- */
+        .menu-toggle {
+            display: none;
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #fff;
+            position: absolute;
+            left: 0;
+            transition: all 0.4s ease;
+        }
+
+        .menu-toggle span:nth-child(1) { top: 0; }
+        .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+        .menu-toggle span:nth-child(3) { bottom: 0; }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* --- МОБИЛЬНОЕ МЕНЮ --- */
+        .mobile-menu {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background-color: #000;
+            z-index: 900;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+            padding-top: 24px;
+            padding-bottom: 30px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 300;
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: #2ecc71;
+        }
+
+        .mobile-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #2ecc71;
+            transition: width 0.3s ease;
+        }
+
+        .mobile-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* --- СЕКЦИИ --- */
+        section {
+            scroll-margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* --- ВИДЕО-СЕКЦИЯ --- */
+        #section1 {
+            height: 100vh;
+            background-color: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- ТЕКСТОВЫЕ СЕКЦИИ --- */
+        #section2,
+        #section3 {
+            min-height: var(--text-section-height);
+            min-height: var(--min-text-section-height);
+            background-color: #FFFFFF;
+        }
+
+        section:nth-child(even) {
+            background-color: #ddd;
+        }
+
+        /* --- ЗАГОЛОВКИ И ТЕКСТ --- */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        p {
+            max-width: 600px;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- СТИЛИ ДЛЯ ВТОРОЙ СЕКЦИИ (ЛОГОТИП) --- */
+        .section-logo {
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0px;
+        }
+
+        .section-logo span {
+            color: #333;
+            text-transform: lowercase;
+        }
+
+        .section-logo span:first-letter {
+            text-transform: uppercase;
+        }
+
+        .section-logo .ampersand {
+            color: #2ecc71;
+            font-weight: 400;
+        }
+
+        .section-text {
+            max-width: 700px;
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #666;
+            margin: 0 auto;
+            padding: 20 0px;
+        }
+
+        /* --- ВИДЕО --- */
+        .video-wrapper {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* --- СТИЛИ ДЛЯ ТРЕТЬЕЙ СЕКЦИИ (КОНТАКТЫ) --- */
+        #section3 {
+            background-color: #FFF;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            min-height: 80vh;
+            min-height: var(--min-text-section-height);
+
+        }
+
+        .contact-info {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .contact-info p {
+            margin: 10px 0;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .social-links a {
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .social-links a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: currentColor;
+            transition: width 0.3s ease;
+        }
+
+        .social-links a:hover::after {
+            width: 100%;
+        }
+
+        .whatsapp {
+            color: #2ecc71;
+        }
+
+        .telegram {
+            color: #0088cc;
+        }
+
+        .team {
+            color: #aaa;
+        }
+
+        /* --- АДАПТИВНОСТЬ --- */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .desktop-nav {
+                display: none;
+            }
+
+            .logo {
+                padding-left: 0;
+                margin: 100 auto;
+            }
+
+            header {
+                justify-content: center;
+            }
+
+            /* Видео на мобильных */
+            #section1 {
+                height: 46vh;
+            }
+
+            .video-wrapper {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+            }
+
+            .video-wrapper video {
+                width: 100%;
+                height: 100%;
+                min-width: 100%;
+            }
+
+            /* Адаптивность текста и логотипа */
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 15px;
+                padding: 0 10px;
+
+
+            }
+
+            p {
+                font-size: 1rem;
+                padding: 0 15px;
+                max-width: 90%;
+            }
+
+            /* Адаптивность логотипа во второй секции */
+            .section-logo {
+                font-size: 2.2rem;
+                gap: 6px;
+                margin-bottom: 25px;
+                /* Восстановлено центрирование логотипа */
+                justify-content: center;
+                width: 100%;
+            }
+
+            .section-text {
+                font-size: 1rem;
+                padding: 0 15px;
+                max-width: 90%;
+            }
+
+            #section2,
+            #section3 {
+                min-height: 55vh;
+                padding: 40px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 12px;
+            }
+
+            p {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+
+            /* Маленький логотип на очень маленьких экранах */
+            .section-logo {
+                font-size: 1.8rem;
+                gap: 4px;
+                margin-bottom: 20px;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .section-text {
+                font-size: 0.95rem;
+            }
+
+            #section2,
+            #section3 {
+                min-height: 60vh;
+                padding: 30px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ХЕДЕР -->
+    <header id="header">
+        <div class="logo">
+            <span>arch</span> <span>&</span> <span>design</span>
+        </div>
+        <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="desktop-nav">
+            <li><a href="#section1">Portfolio</a></li>
+            <li><a href="#section2">What we do?</a></li>
+            <li><a href="#section3">Contact</a></li>
+        </ul>
+    </header>
+
+    <!-- МОБИЛЬНОЕ МЕНЮ -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="#section1">Portfolio</a></li>
+            <li><a href="#section2">What we do?</a></li>
+            <li><a href="#section3">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- СЕКЦИЯ 1: ВИДЕО -->
+    <section id="section1">
+        <div class="video-wrapper">
+            <video autoplay muted loop playsinline preload="metadata">
+                <source src="media/video.mp4" type="video/mp4">
+                Ваш браузер не поддерживает видео.
+            </video>
+        </div>
+    </section>
+
+    <!-- СЕКЦИЯ 2 -->
+    <section id="section2">
+        <h1 class="section-logo">
+            <span>arch</span> <span class="ampersand">&</span> <span>design</span>
+        </h1>
+        <p class="section-text">3D studio for architectural and interior visualization, advertising animation for websites, presentations, catalogs, and social media. Industrial design, furniture fittings, technical videos of the functionality of any system.</p>
+    </section>
+
+    <!-- СЕКЦИЯ 3 -->
+    <section id="section3">
+        <div class="contact-info">
+            <p>London</p>
+            <p>Baker Street 221b</p>
+            <p>+79888887566</p>
+            <p><a href="mailto:3dsofa@gmail.com">3dsofa@gmail.com</a></p>
+        </div>
+        <div class="social-links">
+            <a href="#" class="whatsapp">WhatsApp</a>
+            <a href="#" class="team">Team</a>
+            <a href="#" class="telegram">Telegram</a>
+        </div>
+    </section>
+
+    <!-- СКРИПТЫ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.getElementById('header');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const toggleBtn = document.getElementById('menuToggle');
+
+            // --- ПРОКРУТКА: СКРЫТИЕ ХЕДЕРА ---
+            let lastScrollTop = 0;
+            let isScrolling = false;
+
+            window.addEventListener('scroll', function() {
+                if (isScrolling) return;
+
+                isScrolling = true;
+                requestAnimationFrame(() => {
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                    if (scrollTop > lastScrollTop && scrollTop > 60) {
+                        header.classList.add('hidden');
+                        if (mobileMenu.classList.contains('active')) {
+                            closeMobileMenu();
+                        }
+                    } else if (scrollTop < lastScrollTop) {
+                        header.classList.remove('hidden');
+                    }
+
+                    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+                    isScrolling = false;
+                });
+            });
+
+            // --- ПЛАВНАЯ ПРОКРУТКА ПО ЯКОРЯМ ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        if (mobileMenu.classList.contains('active')) {
+                            closeMobileMenu();
+                        }
+
+                        header.classList.remove('hidden');
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // --- БУРГЕР-МЕНЮ ---
+            function toggleMobileMenu() {
+                const isActive = toggleBtn.classList.toggle('active');
+                mobileMenu.classList.toggle('active', isActive);
+                toggleBtn.setAttribute('aria-expanded', isActive);
+            }
+
+            function closeMobileMenu() {
+                toggleBtn.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                toggleBtn.setAttribute('aria-expanded', 'false');
+            }
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', toggleMobileMenu);
+            }
+
+            if (mobileMenu) {
+                document.querySelectorAll('.mobile-menu a').forEach(link => {
+                    link.addEventListener('click', closeMobileMenu);
+                });
+            }
+
+            // --- АДАПТИВНОСТЬ ---
+            function handleResize() {
+                if (window.innerWidth > 768) {
+                    closeMobileMenu();
+                }
+            }
+
+            window.addEventListener('resize', handleResize);
+            handleResize();
+
+            // --- ЗАКРЫТИЕ МЕНЮ ПРИ КЛИКЕ ВНЕ ЕГО ---
+            document.addEventListener('click', function(e) {
+                if (mobileMenu.classList.contains('active')) {
+                    const isClickInsideMenu = mobileMenu.contains(e.target);
+                    const isClickOnToggle = toggleBtn.contains(e.target);
+
+                    if (!isClickInsideMenu && !isClickOnToggle) {
+                        closeMobileMenu();
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
