@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArchiDesign | 3Dsofa</title>
+    <title>Archi & Design | 3Dsofa</title>
     <style>
         /* --- СБРОС И ОБЩИЕ СТИЛИ --- */
         * {
@@ -23,14 +23,6 @@
             background-color: #f4f4f4;
             overflow-x: hidden;
             padding-top: env(safe-area-inset-top);
-        }
-
-        /* --- КОНФИГУРАЦИЯ ВЫСОТЫ СЕКЦИЙ --- */
-        :root {
-            /* Основные переменные для регулировки высоты */
-            --video-section-height: 100vh;       /* Высота видео-секции */
-            --text-section-height: 80vh;         /* Высота текстовых секций */
-            --min-text-section-height: 600px;    /* Минимальная высота текстовых секций */
         }
 
         /* --- ХЕДЕР --- */
@@ -76,7 +68,6 @@
         .logo span:nth-child(2) {
             color: #2ecc71;
             font-weight: 400;
-
         }
 
         /* --- ДЕСКТОПНАЯ НАВИГАЦИЯ --- */
@@ -238,18 +229,12 @@
             overflow: hidden;
         }
 
-        /* --- ТЕКСТОВЫЕ СЕКЦИИ --- */
-        #section2,
-        #section3 {
-            --text-section-height: 80vh;         /* Высота текстовых секций */
-            --min-text-section-height: 300px;    /* Минимальная высота текстовых секций */
-            min-height: var(--text-section-height);
-            min-height: var(--min-text-section-height);
+        /* --- СЕКЦИЯ 2 --- */
+        #section2 {
+            min-height: 10vh;
+            min-height: 100px;
             background-color: #FFFFFF;
-        }
-
-        section:nth-child(even) {
-            background-color: #ddd;
+            padding: 60px 20px;
         }
 
         /* --- ЗАГОЛОВКИ И ТЕКСТ --- */
@@ -302,7 +287,7 @@
             line-height: 1.8;
             color: #666;
             margin: 0 auto;
-            padding: 20 0px;
+            padding: 0 20px;
         }
 
         /* --- ВИДЕО --- */
@@ -323,56 +308,109 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
         }
 
-        /* --- СТИЛИ ДЛЯ ТРЕТЬЕЙ СЕКЦИИ (КОНТАКТЫ) --- */
+        /* --- СЕКЦИЯ 3: КОНТАКТЫ С ВИДЕО-ФОНОМ --- */
         #section3 {
-            background-color: #FFF;
-            color: #333;
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 60px 20px;
-            min-height: 80vh;
-            min-height: var(--min-text-section-height);
-
+            overflow: hidden;
+            color: #fff;
         }
 
-        .contact-info {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
+        .video-bg-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .video-bg-wrapper video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        .contact-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 500px;
+            width: fit-content;
+            margin: 0 auto;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .contact-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 22px;
+            z-index: -1;
         }
 
         .contact-info p {
-            margin: 10px 0;
+            margin: 8px 0;
+            font-size: 1.1rem;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .contact-info a {
+            color: #2ecc71;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .contact-info a:hover {
+            opacity: 0.8;
         }
 
         .social-links {
             display: flex;
-            gap: 25px;
             justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 16px;
         }
 
         .social-links a {
             text-decoration: none;
             font-size: 1.1rem;
-            transition: color 0.3s ease;
+            color: #fff;
+            transition: color 0.3s;
             position: relative;
+            padding-bottom: 4px;
         }
 
         .social-links a:hover {
-            text-decoration: underline;
+            color: #2ecc71;
         }
 
         .social-links a::after {
             content: '';
             position: absolute;
-            bottom: -2px;
+            bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
@@ -384,17 +422,9 @@
             width: 100%;
         }
 
-        .whatsapp {
-            color: #2ecc71;
-        }
-
-        .telegram {
-            color: #0088cc;
-        }
-
-        .team {
-            color: #aaa;
-        }
+        .whatsapp { color: #2ecc71; }
+        .telegram { color: #0088cc; }
+        .team { color: #aaa; }
 
         /* --- АДАПТИВНОСТЬ --- */
         @media (max-width: 768px) {
@@ -408,7 +438,7 @@
 
             .logo {
                 padding-left: 0;
-                margin: 100 auto;
+                margin: 0 auto;
             }
 
             header {
@@ -418,12 +448,6 @@
             /* Видео на мобильных */
             #section1 {
                 height: 46vh;
-            }
-
-            .video-wrapper {
-                height: 100%;
-                width: 100%;
-                margin: 0;
             }
 
             .video-wrapper video {
@@ -437,8 +461,6 @@
                 font-size: 1.8rem;
                 margin-bottom: 15px;
                 padding: 0 10px;
-
-
             }
 
             p {
@@ -447,12 +469,10 @@
                 max-width: 90%;
             }
 
-            /* Адаптивность логотипа во второй секции */
             .section-logo {
                 font-size: 2.2rem;
                 gap: 6px;
                 margin-bottom: 25px;
-                /* Восстановлено центрирование логотипа */
                 justify-content: center;
                 width: 100%;
             }
@@ -463,10 +483,35 @@
                 max-width: 90%;
             }
 
-            #section2,
-            #section3 {
+            #section2 {
                 min-height: 55vh;
                 padding: 40px 15px;
+            }
+
+            /* Секция 3 — мобильная адаптация */
+            #section3 {
+                height: auto;
+                min-height: 500px;
+                padding: 40px 0;
+            }
+
+            .contact-content {
+                max-width: 400px;
+                padding: 30px 15px;
+            }
+
+            .contact-backdrop {
+                border-radius: 16px;
+            }
+
+            .contact-info p {
+                font-size: 1rem;
+                margin: 6px 0;
+
+            }
+
+            .social-links {
+                gap: 20px;
             }
         }
 
@@ -481,7 +526,6 @@
                 line-height: 1.6;
             }
 
-            /* Маленький логотип на очень маленьких экранах */
             .section-logo {
                 font-size: 1.8rem;
                 gap: 4px;
@@ -494,10 +538,23 @@
                 font-size: 0.95rem;
             }
 
-            #section2,
-            #section3 {
+            #section2 {
                 min-height: 60vh;
                 padding: 30px 10px;
+            }
+
+            .contact-content {
+                max-width: 320px;
+                padding: 24px 10px;
+            }
+
+            .contact-backdrop {
+                border-radius: 12px;
+            }
+
+            .contact-info p {
+                font-size: 0.95rem;
+                margin: 5px 0;
             }
         }
     </style>
@@ -548,18 +605,27 @@
         <p class="section-text">3D studio for architectural and interior visualization, advertising animation for websites, presentations, catalogs, and social media. Industrial design, furniture fittings, technical videos of the functionality of any system.</p>
     </section>
 
-    <!-- СЕКЦИЯ 3 -->
+    <!-- СЕКЦИЯ 3: КОНТАКТЫ С ВИДЕО-ФОНОМ -->
     <section id="section3">
-        <div class="contact-info">
-            <p>London</p>
-            <p>Baker Street 221b</p>
-            <p>+79888887566</p>
-            <p><a href="mailto:3dsofa@gmail.com">3dsofa@gmail.com</a></p>
+        <div class="video-bg-wrapper">
+            <video autoplay muted loop playsinline preload="metadata">
+                <source src="media/B1.mp4" type="video/mp4">
+                Ваш браузер не поддерживает видео.
+            </video>
         </div>
-        <div class="social-links">
-            <a href="https://wa.me/79888887566" class="whatsapp">WhatsApp</a>
-            <a href="https://teams.microsoft.com/l/chat/0/0?users=al.chechin@gmail.com" class="team">Team</a>
-            <a href="https://t.me/+79888887566" class="telegram">Telegram</a>
+        <div class="contact-content">
+            <div class="contact-backdrop"></div>
+            <div class="contact-info">
+                <p>LONDON</p>
+                <p>Baker Street 221b</p>
+                <p>+79888887566</p>
+                <p><a href="mailto:3dsofa@gmail.com">3dsofa@gmail.com</a></p>
+            </div>
+            <div class="social-links">
+                <a href="#" class="whatsapp">WhatsApp</a>
+                <a href="#" class="team">Team</a>
+                <a href="#" class="telegram">Telegram</a>
+            </div>
         </div>
     </section>
 
