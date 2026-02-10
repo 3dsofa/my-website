@@ -61,7 +61,7 @@
             z-index: 1000;
             display: flex;
             align-items: center;
-            padding-left: 40px;
+            padding-left: 40px; /* ← логотип слева на десктопе */
             transition: top 0.3s ease-out;
         }
 
@@ -256,9 +256,11 @@
 
         /* --- СЕКЦИЯ 2 --- */
         #section2 {
-            min-height: 10vh;
-            background-color: #FFFFFF;
-            padding: 70px 0px;
+            min-height: auto;
+            background-color: #fff;
+            padding: 70px 0;
+            position: relative;
+            z-index: 2; /* ← чтобы не перекрывалась третьей секцией */
         }
 
         /* --- ЗАГОЛОВКИ И ТЕКСТ --- */
@@ -337,13 +339,13 @@
         /* --- СЕКЦИЯ 3: КОНТАКТЫ С ВИДЕО-ФОНОМ --- */
         #section3 {
             position: relative;
-            height: 100vh;
-            min-height: 600px;
+            min-height: 500px;
+            height: auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
             color: #fff;
+            z-index: 1; /* ← ниже, чем #section2 (z-index: 2) */
         }
 
         .video-bg-wrapper {
@@ -353,7 +355,6 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            overflow: hidden;
         }
 
         .video-bg-wrapper video {
@@ -464,13 +465,14 @@
                 display: none;
             }
 
-            .logo {
-                padding-left: 0;
-                margin: 0 auto;
-            }
-
+            /* ЛОГОТИП: центрируем на мобильных */
             header {
                 justify-content: center;
+                padding-left: 0;
+            }
+
+            .logo {
+                transform: translateX(0); /* ← здесь можно сдвинуть: -10px / +10px */
             }
 
             /* Видео на мобильных */
@@ -512,14 +514,14 @@
             }
 
             #section2 {
-                min-height: 55vh;
+                min-height: auto;
                 padding: 40px 15px;
             }
 
             /* Секция 3 — мобильная адаптация */
             #section3 {
                 height: auto;
-                min-height: 500px;
+                min-height: 400px;
                 padding: 40px 0;
             }
 
@@ -566,7 +568,7 @@
             }
 
             #section2 {
-                min-height: 60vh;
+                min-height: auto;
                 padding: 30px 10px;
             }
 
