@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSW24JZNV"></script>
@@ -10,7 +10,7 @@
 
   gtag('config', 'G-3MSW24JZNV');
 </script>
-    
+
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function(m,e,t,r,i,k,a){
@@ -29,6 +29,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archi & Design | 3Dsofa</title>
+    <meta name="description" content="3Dsofa — архитектура и дизайн интерьеров. Портфолио, услуги и контакты." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://3dsofa.com/" />
+    <meta property="og:title" content="Archi & Design | 3Dsofa" />
+    <meta property="og:description" content="3Dsofa — архитектура и дизайн интерьеров. Портфолио, услуги и контакты." />
+    <meta property="og:url" content="https://3dsofa.com/" />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "3Dsofa",
+            "url": "https://3dsofa.com/",
+            "email": "mailto:3dsofa@gmail.com",
+            "telephone": "+79888887566",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Baker Street 221b",
+                "addressLocality": "London",
+                "addressCountry": "GB"
+            }
+        }
+    </script>
     <style>
         /* --- СБРОС И ОБЩИЕ СТИЛИ --- */
         * {
@@ -157,6 +180,7 @@
             background-color: #fff;
             position: absolute;
             left: 0;
+            transform-origin: center;
             transition: all 0.4s ease;
         }
 
@@ -165,7 +189,8 @@
         .menu-toggle span:nth-child(3) { bottom: 0; }
 
         .menu-toggle.active span:nth-child(1) {
-            transform: translateY(7px) rotate(45deg);
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
         }
 
         .menu-toggle.active span:nth-child(2) {
@@ -173,7 +198,9 @@
         }
 
         .menu-toggle.active span:nth-child(3) {
-            transform: translateY(-7px) rotate(-45deg);
+            top: 50%;
+            bottom: auto;
+            transform: translateY(-50%) rotate(-45deg);
         }
 
         /* --- МОБИЛЬНОЕ МЕНЮ --- */
@@ -384,7 +411,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            /* Backdrop disabled. To restore, set background back to rgba(0, 0, 0, 0.4). */
+            background: transparent;
             border-radius: 25px;
             z-index: -1;
         }
@@ -403,12 +431,15 @@
             display: block;
             width: 100%;
             text-align: center;
+            color: #2ecc71;
+            font-weight: 500;
         }
 
         .contact-info a {
             color: #2ecc71;
             text-decoration: none;
             transition: opacity 0.3s;
+            font-weight: 500;
         }
 
         .contact-info a:hover {
@@ -426,14 +457,15 @@
         .social-links a {
             text-decoration: none;
             font-size: 1.1rem;
-            color: #fff;
-            transition: color 0.3s;
+            color: #2ecc71;
+            transition: color 0.3s, opacity 0.3s;
             position: relative;
             padding-bottom: 4px;
+            font-weight: 500;
         }
 
         .social-links a:hover {
-            color: #2ecc71;
+            opacity: 0.8;
         }
 
         .social-links a::after {
@@ -452,8 +484,8 @@
         }
 
         .whatsapp { color: #2ecc71; }
-        .telegram { color: #0088cc; }
-        .team { color: #aaa; }
+        .telegram { color: #2ecc71; }
+        .team { color: #2ecc71; }
 
         /* --- АДАПТИВНОСТЬ --- */
         @media (max-width: 768px) {
@@ -631,7 +663,7 @@
         <h1 class="section-logo">
             <span>arch</span> <span class="ampersand">&</span> <span>design</span>
         </h1>
-        <p class="section-text">3D studio for architectural and interior visualization, advertising animation websites, presentations, catalogs, and social media. Industrial design, furniture fittings, technical videos of the functionality of any system.</p>
+        <p class="section-text">3D studio for architectural and interior visualization, advertising animation websites, presentations, catalogs, and social media. We create photorealistic renders, product visuals, and interior design concepts for real estate and brands. Industrial design, furniture fittings, technical videos of the functionality of any system.</p>
     </section>
 
     <!-- СЕКЦИЯ 3: КОНТАКТЫ С ВИДЕО-ФОНОМ -->
@@ -757,4 +789,3 @@
 
 </body>
 </html>
-
