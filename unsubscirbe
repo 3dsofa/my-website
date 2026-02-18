@@ -101,7 +101,7 @@
                 <input type="email" placeholder="Enter your email" required>
                 <div class="unsubscribe-buttons">
                     <button type="submit" class="btn-unsubscribe">Unsubscribe</button>
-                    <button type="button" class="btn-site">Look site!</button>
+                    <button type="button" class="btn-site" onclick="window.location.href='/'">Look site!</button>
                 </div>
             </form>
         </div>
