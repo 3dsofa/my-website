@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>3Dsofa — logo studies</title>
+  <style>
+    :root { --green:#52dc73; --ink:#121412; --paper:#deddd7; --white:#f2f1ed; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+    main { width:min(1500px,calc(100% - 64px)); margin:auto; padding:54px 0 76px; }
+    header { display:grid; grid-template-columns:1fr 2fr; gap:40px; align-items:end; margin-bottom:42px; }
+    .eyebrow,.index { color:#18883d; font-size:12px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; }
+    h1 { margin:0; font-size:clamp(42px,6vw,92px); line-height:.88; letter-spacing:-.065em; font-weight:600; }
+    .intro { max-width:640px; margin:20px 0 0; color:#666861; font-size:17px; line-height:1.55; }
+    .concepts { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .concept { overflow:hidden; min-height:510px; border:1px solid rgba(18,20,18,.13); background:#0b0d0c; color:var(--white); }
+    .stage { display:flex; height:345px; align-items:center; justify-content:center; padding:42px 34px; }
+    .stage svg { display:block; width:100%; height:auto; overflow:visible; }
+    .caption { min-height:164px; border-top:1px solid rgba(255,255,255,.13); padding:24px 26px; }
+    .caption h2 { margin:9px 0 10px; font-size:22px; letter-spacing:-.035em; font-weight:550; }
+    .caption p { margin:0; color:#aeb1ac; font-size:13px; line-height:1.55; }
+    .applications { display:grid; grid-template-columns:1.7fr 1fr 1fr; gap:18px; margin-top:18px; }
+    .application { position:relative; min-height:180px; overflow:hidden; border:1px solid rgba(18,20,18,.13); }
+    .glass { display:flex; align-items:center; justify-content:space-between; padding:0 30px; color:var(--white); background:linear-gradient(110deg,rgba(9,11,10,.82),rgba(45,52,49,.66)),url('/media/images/int-6-2.jpg') center/cover; }
+    .glass nav { display:flex; gap:25px; color:#e5e5e2; font-size:11px; }
+    .paper { display:flex; align-items:center; justify-content:center; background:#f4f3ef; }
+    .avatar { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:#0b0d0c; color:#92958f; font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
+    .small-wordmark { width:120px; }
+    .avatar-mark { width:62px; height:62px; }
+    .note { display:flex; justify-content:space-between; margin-top:18px; color:#656760; font-size:11px; letter-spacing:.04em; }
+    @media (max-width:900px) {
+      main { width:min(100% - 32px,620px); padding-top:32px; }
+      header,.concepts,.applications { grid-template-columns:1fr; }
+      .concept { min-height:440px; }
+      .stage { height:290px; }
+      .glass { min-height:150px; }
+      .glass nav { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Identity studies · 01—03</div>
+      <div>
+        <h1>3Dsofa,<br>made precise.</h1>
+        <p class="intro">Three restrained directions for a visual production studio. The green signal remains; the typography becomes calmer, sharper and more ownable.</p>
+      </div>
+    </header>
+
+    <section class="concepts">
+      <article class="concept">
+        <div class="stage">
+          <svg viewBox="0 0 430 120" role="img" aria-label="Precision wordmark">
+            <g font-family="Arial,Helvetica,sans-serif">
+              <text x="23" y="84" fill="none" stroke="#52dc73" stroke-width="1.35" opacity=".28" font-size="82" font-weight="700" letter-spacing="-7" transform="translate(3 -2)">3D</text>
+              <text x="20" y="84" fill="#52dc73" font-size="82" font-weight="700" letter-spacing="-7">3D</text>
+              <path d="M119 38l16 20" stroke="#0b0d0c" stroke-width="4.5" stroke-linecap="square"/>
+              <text x="145" y="84" fill="#f2f1ed" font-size="66" font-weight="400" letter-spacing="-5">sofa</text>
+            </g>
+          </svg>
+        </div>
+        <div class="caption">
+          <div class="index">01 · Recommended</div>
+          <h2>Precision wordmark</h2>
+          <p>Recognisable evolution. A quiet perspective cut inside D and one restrained depth line. No icon, no decorative volume.</p>
+        </div>
+      </article>
+
+      <article class="concept">
+        <div class="stage">
+          <svg viewBox="0 0 430 150" role="img" aria-label="Editorial wordmark">
+            <g font-family="Arial,Helvetica,sans-serif">
+              <text x="24" y="83" fill="#f2f1ed" font-size="72" font-weight="700" letter-spacing="-5">3D</text>
+              <circle cx="141" cy="64" r="6" fill="#52dc73"/>
+              <text x="160" y="83" fill="#f2f1ed" font-size="58" font-weight="400" letter-spacing="7">SOFA</text>
+              <line x1="25" y1="108" x2="398" y2="108" stroke="#4a4d49" stroke-width="1"/>
+              <text x="27" y="132" fill="#9ea19b" font-size="11" font-weight="600" letter-spacing="4.6">VISUAL PRODUCTION STUDIO</text>
+            </g>
+          </svg>
+        </div>
+        <div class="caption">
+          <div class="index">02 · Editorial</div>
+          <h2>3D·SOFA</h2>
+          <p>International and systematic. Strong in catalogues and presentations, but more formal and less recognisable than the current name.</p>
+        </div>
+      </article>
+
+      <article class="concept">
+        <div class="stage">
+          <svg viewBox="0 0 430 150" role="img" aria-label="Frame monogram and wordmark">
+            <g fill="none" stroke="#52dc73" stroke-width="4">
+              <path d="M30 58V23H77M117 23h35v35M152 93v34h-35M77 127H30V93"/>
+            </g>
+            <text x="46" y="96" fill="#52dc73" font-family="Arial,Helvetica,sans-serif" font-size="59" font-weight="700" letter-spacing="-6">3D</text>
+            <text x="178" y="92" fill="#f2f1ed" font-family="Arial,Helvetica,sans-serif" font-size="61" font-weight="400" letter-spacing="-5">sofa</text>
+            <text x="181" y="119" fill="#959892" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="600" letter-spacing="3.1">IMAGES IN SPACE &amp; TIME</text>
+          </svg>
+        </div>
+        <div class="caption">
+          <div class="index">03 · Secondary mark</div>
+          <h2>Frame monogram</h2>
+          <p>A compact camera-and-space symbol for favicon, watermark and film leaders. Best used beside, not instead of, the full name.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="applications">
+      <div class="application glass">
+        <svg class="small-wordmark" viewBox="0 0 215 58" aria-label="3Dsofa">
+          <text x="2" y="43" fill="#52dc73" font-family="Arial,Helvetica,sans-serif" font-size="52" font-weight="700" letter-spacing="-5">3D</text>
+          <path d="M64 20l10 13" stroke="#16201a" stroke-width="3"/>
+          <text x="81" y="43" fill="#f2f1ed" font-family="Arial,Helvetica,sans-serif" font-size="41" font-weight="400" letter-spacing="-4">sofa</text>
+        </svg>
+        <nav><span>Work</span><span>Motion</span><span>Cinema</span><span>Catalogues</span><span>Contact</span></nav>
+      </div>
+      <div class="application paper">
+        <svg class="small-wordmark" viewBox="0 0 215 58" aria-label="3Dsofa dark version">
+          <text x="2" y="43" fill="#18883d" font-family="Arial,Helvetica,sans-serif" font-size="52" font-weight="700" letter-spacing="-5">3D</text>
+          <path d="M64 20l10 13" stroke="#f4f3ef" stroke-width="3"/>
+          <text x="81" y="43" fill="#161816" font-family="Arial,Helvetica,sans-serif" font-size="41" font-weight="400" letter-spacing="-4">sofa</text>
+        </svg>
+      </div>
+      <div class="application avatar">
+        <svg class="avatar-mark" viewBox="0 0 100 100" aria-label="3D monogram">
+          <g fill="none" stroke="#52dc73" stroke-width="5"><path d="M8 39V8h31M62 8h30v31M92 62v30H62M39 92H8V62"/></g>
+          <text x="19" y="66" fill="#52dc73" font-family="Arial,Helvetica,sans-serif" font-size="46" font-weight="700" letter-spacing="-5">3D</text>
+        </svg>
+        favicon · watermark
+      </div>
+    </section>
+    <div class="note"><span>Colour signal #52DC73</span><span>Vector sketches · no site changes</span></div>
+  </main>
+</body>
+</html>
