@@ -43,6 +43,8 @@ function legacyRedirectHtml(target, language = 'en') {
 const legacyRoutes = [
   ['home', '/en/', 'en'],
   ...locales.map((locale) => [`${locale}/home`, `/${locale}/`, locale]),
+  ['it', '/en/', 'it'],
+  ['it/home', '/en/', 'it'],
 ];
 
 for (const [route, target, language] of legacyRoutes) {
