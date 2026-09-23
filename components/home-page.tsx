@@ -1,5 +1,7 @@
 'use client';
 
+import type { SyntheticEvent } from 'react';
+
 import { CinemaGallery, ImageGallery, VideoGallery } from '@/components/portfolio-galleries';
 import { CatalogStories } from '@/components/catalog-stories';
 import { SiteHeader } from '@/components/site-header';
@@ -14,9 +16,41 @@ const services = [
   ['05', 'Catalogue design', 'Print catalogues and digital editorial experiences — structured, visualized and built from cover to final page.'],
 ];
 
+type LeadAction = 'email' | 'form' | 'phone' | 'whatsapp' | 'telegram' | 'teams';
+
+function trackLeadAction(action: LeadAction) {
+  const eventName = action === 'form' ? 'contact_form_submit' : `contact_${action}_click`;
+  const analyticsWindow = window as typeof window & {
+    gtag?: (...args: unknown[]) => void;
+    ym?: (...args: unknown[]) => void;
+  };
+
+  analyticsWindow.gtag?.('event', eventName, { event_category: 'lead', contact_method: action });
+  analyticsWindow.ym?.(36687435, 'reachGoal', eventName, { contact_method: action });
+}
+
 export default function HomePage() {
   const { locale, t } = useI18n();
   const pageUrl = `${siteUrl}/${locale}/`;
+
+  function handleProjectInquiry(event: SyntheticEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const field = (name: string) => {
+      const value = data.get(name);
+      return typeof value === 'string' && value.trim() ? value.trim() : '—';
+    };
+    const lines = [
+      `${t('Name')}: ${field('name')}`,
+      `${t('Work email')}: ${field('email')}`,
+      `${t('Company')}: ${field('company')}`,
+      `${t('Project brief')}: ${field('brief')}`,
+      `${t('Budget / deadline')}: ${field('budget')}`,
+    ];
+
+    trackLeadAction('form');
+    window.location.href = `mailto:3dsofa@gmail.com?subject=${encodeURIComponent('Project inquiry from 3dsofa.com')}&body=${encodeURIComponent(lines.join('\n\n'))}`;
+  }
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -36,12 +70,6 @@ export default function HomePage() {
         description: localeMetadata[locale].description,
         email: '3dsofa@gmail.com',
         telephone: '+79888887566',
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: 'Baker Street 221b',
-          addressLocality: 'London',
-          addressCountry: 'GB',
-        },
         hasOfferCatalog: {
           '@type': 'OfferCatalog',
           name: t('3D visualization services'),
@@ -181,18 +209,31 @@ export default function HomePage() {
         <div className="contact-shade" />
         <div className="contact-main">
           <p className="eyebrow">{t('Start a project')}</p>
-          <h2>{t("Let's make it visible.")}</h2>
-          <a href="mailto:3dsofa@gmail.com">3dsofa@gmail.com <span>↗</span></a>
-        </div>
-        <div className="contact-details">
-          <p>London<br />Baker Street 221b</p>
-          <p><a href="tel:+79888887566">+7 988 888-75-66</a></p>
-          <div>
-            <a href="https://wa.me/79888887566">WhatsApp ↗</a>
-            <a href="https://t.me/+79888887566">Telegram ↗</a>
-            <a href="https://teams.microsoft.com/l/chat/0/0?users=al.chechin@gmail.com">Microsoft Teams ↗</a>
+          <h2>{t('Tell us what you need.')}</h2>
+          <p className="contact-intro">{t('Share a few details. We reply within one business day.')}</p>
+          <div className="contact-direct">
+            <a data-lead-action="email" href="mailto:3dsofa@gmail.com?subject=Project%20inquiry%20from%203dsofa.com" onClick={() => trackLeadAction('email')}>
+              3dsofa@gmail.com <span>↗</span>
+            </a>
+            <a data-lead-action="phone" href="tel:+79888887566" onClick={() => trackLeadAction('phone')}>+7 988 888-75-66</a>
+          </div>
+          <div className="contact-socials">
+            <a data-lead-action="whatsapp" href="https://wa.me/79888887566" onClick={() => trackLeadAction('whatsapp')}>WhatsApp ↗</a>
+            <a data-lead-action="telegram" href="https://t.me/+79888887566" onClick={() => trackLeadAction('telegram')}>Telegram ↗</a>
+            <a data-lead-action="teams" href="https://teams.microsoft.com/l/chat/0/0?users=al.chechin@gmail.com" onClick={() => trackLeadAction('teams')}>Microsoft Teams ↗</a>
           </div>
         </div>
+        <form className="contact-form" onSubmit={handleProjectInquiry}>
+          <div className="contact-form-row">
+            <label><span>{t('Name')}</span><input name="name" type="text" autoComplete="name" required placeholder={t('Your name')} /></label>
+            <label><span>{t('Work email')}</span><input name="email" type="email" autoComplete="email" required placeholder="name@company.com" /></label>
+          </div>
+          <label><span>{t('Company')}</span><input name="company" type="text" autoComplete="organization" placeholder={t('Company name (optional)')} /></label>
+          <label><span>{t('Project brief')}</span><textarea name="brief" rows={4} required placeholder={t('What would you like us to create?')} /></label>
+          <label><span>{t('Budget / deadline')}</span><input name="budget" type="text" placeholder={t('Optional')} /></label>
+          <button type="submit">{t('Send project brief')} <span>↗</span></button>
+          <p>{t('Submitting opens your email app with the project details ready to send.')}</p>
+        </form>
         <p className="copyright">© 3Dsofa · Archi &amp; Design</p>
       </footer>
     </main>
