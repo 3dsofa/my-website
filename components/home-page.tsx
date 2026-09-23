@@ -1,6 +1,6 @@
 'use client';
 
-import type { SyntheticEvent } from 'react';
+import { useState, type SyntheticEvent } from 'react';
 
 import { CinemaGallery, ImageGallery, VideoGallery } from '@/components/portfolio-galleries';
 import { CatalogStories } from '@/components/catalog-stories';
@@ -31,25 +31,30 @@ function trackLeadAction(action: LeadAction) {
 
 export default function HomePage() {
   const { locale, t } = useI18n();
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const pageUrl = `${siteUrl}/${locale}/`;
 
-  function handleProjectInquiry(event: SyntheticEvent<HTMLFormElement>) {
+  async function handleProjectInquiry(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const field = (name: string) => {
-      const value = data.get(name);
-      return typeof value === 'string' && value.trim() ? value.trim() : '—';
-    };
-    const lines = [
-      `${t('Name')}: ${field('name')}`,
-      `${t('Work email')}: ${field('email')}`,
-      `${t('Company')}: ${field('company')}`,
-      `${t('Project brief')}: ${field('brief')}`,
-      `${t('Budget / deadline')}: ${field('budget')}`,
-    ];
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    data.set('_subject', 'New project inquiry from 3dsofa.com');
+    data.set('_template', 'table');
 
-    trackLeadAction('form');
-    window.location.href = `mailto:3dsofa@gmail.com?subject=${encodeURIComponent('Project inquiry from 3dsofa.com')}&body=${encodeURIComponent(lines.join('\n\n'))}`;
+    setFormStatus('sending');
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/29af18fc06a03fc6a1f0a3f327c1cc1f', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: data,
+      });
+      if (!response.ok) throw new Error(`Form delivery failed: ${response.status}`);
+      trackLeadAction('form');
+      form.reset();
+      setFormStatus('success');
+    } catch {
+      setFormStatus('error');
+    }
   }
   const structuredData = {
     '@context': 'https://schema.org',
@@ -94,7 +99,10 @@ export default function HomePage() {
           <p className="eyebrow">{t('3D visualization studio')}</p>
           <h1>{t('Architecture, interiors and products — made visible.')}</h1>
           <p className="hero-intro">{t('Photorealistic imagery, technical animation and cinematic production.')}</p>
-          <a className="text-link" href="#images">{t('View selected work')} <span>↓</span></a>
+          <div className="hero-actions">
+            <a className="hero-project-link" href="#contact">{t('Start a project')} <span>↗</span></a>
+            <a className="text-link" href="#images">{t('View selected work')} <span>↓</span></a>
+          </div>
         </div>
       </section>
 
@@ -224,6 +232,7 @@ export default function HomePage() {
           </div>
         </div>
         <form className="contact-form" onSubmit={handleProjectInquiry}>
+          <input className="contact-honey" type="text" name="_honey" tabIndex={-1} autoComplete="off" aria-hidden="true" />
           <div className="contact-form-row">
             <label><span>{t('Name')}</span><input name="name" type="text" autoComplete="name" required placeholder={t('Your name')} /></label>
             <label><span>{t('Work email')}</span><input name="email" type="email" autoComplete="email" required placeholder="name@company.com" /></label>
@@ -231,8 +240,14 @@ export default function HomePage() {
           <label><span>{t('Company')}</span><input name="company" type="text" autoComplete="organization" placeholder={t('Company name (optional)')} /></label>
           <label><span>{t('Project brief')}</span><textarea name="brief" rows={4} required placeholder={t('What would you like us to create?')} /></label>
           <label><span>{t('Budget / deadline')}</span><input name="budget" type="text" placeholder={t('Optional')} /></label>
-          <button type="submit">{t('Send project brief')} <span>↗</span></button>
-          <p>{t('Submitting opens your email app with the project details ready to send.')}</p>
+          <button type="submit" disabled={formStatus === 'sending'}>
+            {formStatus === 'sending' ? t('Sending…') : t('Send project brief')} <span>↗</span>
+          </button>
+          <output className={`contact-form-status contact-form-status-${formStatus}`} aria-live="polite">
+            {formStatus === 'success' && t('Thank you. Your project brief has been sent.')}
+            {formStatus === 'error' && <>{t('The form could not be sent. Please write to')} <a href="mailto:3dsofa@gmail.com">3dsofa@gmail.com</a>.</>}
+            {(formStatus === 'idle' || formStatus === 'sending') && t('Your details are used only to reply to this inquiry.')}
+          </output>
         </form>
         <p className="copyright">© 3Dsofa · Archi &amp; Design</p>
       </footer>
